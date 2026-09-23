@@ -13,15 +13,58 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <name>FAN Event Booking Automation</name>
+
     <description>
-        BDD Web Automation Testing project using Cucumber, Selenium WebDriver and TestNG.
+        BDD Web Automation Testing project using
+        Cucumber, Selenium WebDriver and TestNG.
     </description>
 
     <properties>
         <maven.compiler.release>17</maven.compiler.release>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <cucumber.version>7.34.8</cucumber.version>
+        <selenium.version>4.49.0</selenium.version>
+        <testng.version>7.12.0</testng.version>
     </properties>
+
+    <dependencies>
+
+        <!-- Cucumber: Step Definitions / Gherkin integration -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Cucumber integration with TestNG -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Selenium WebDriver -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- TestNG -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
 
     <build>
         <plugins>
