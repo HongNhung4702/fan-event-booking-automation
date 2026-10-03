@@ -20,18 +20,28 @@
     </description>
 
     <properties>
+
+        <!-- Java -->
         <maven.compiler.release>17</maven.compiler.release>
 
+        <!-- UTF-8 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <!-- Dependencies -->
         <cucumber.version>7.34.8</cucumber.version>
         <selenium.version>4.49.0</selenium.version>
         <testng.version>7.12.0</testng.version>
+
+        <!-- Maven Plugins -->
+        <maven.compiler.plugin.version>3.16.0</maven.compiler.plugin.version>
+        <maven.surefire.plugin.version>3.5.4</maven.surefire.plugin.version>
+
     </properties>
 
     <dependencies>
 
+        <!-- Cucumber Java -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
@@ -39,6 +49,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Cucumber + TestNG -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-testng</artifactId>
@@ -46,6 +57,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Dependency Injection -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-picocontainer</artifactId>
@@ -53,6 +65,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Selenium -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
@@ -60,6 +73,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- TestNG -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -70,18 +84,59 @@
     </dependencies>
 
     <build>
+
         <plugins>
 
+            <!-- Java Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.16.0</version>
+                <version>${maven.compiler.plugin.version}</version>
+
                 <configuration>
-                    <release>${maven.compiler.release}</release>
+
+                    <release>
+                        ${maven.compiler.release}
+                    </release>
+
+                    <encoding>
+                        ${project.build.sourceEncoding}
+                    </encoding>
+
                 </configuration>
             </plugin>
 
+            <!-- Test Runner -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.plugin.version}</version>
+
+                <configuration>
+
+                    <!--
+                    Bắt buộc JVM chạy TestNG/Cucumber sử dụng UTF-8
+                    -->
+                    <argLine>
+                        -Dfile.encoding=UTF-8
+                        -Dsun.stdout.encoding=UTF-8
+                        -Dsun.stderr.encoding=UTF-8
+                    </argLine>
+
+                    <systemPropertyVariables>
+
+                        <file.encoding>
+                            UTF-8
+                        </file.encoding>
+
+                    </systemPropertyVariables>
+
+                </configuration>
+
+            </plugin>
+
         </plugins>
+
     </build>
 
 </project>

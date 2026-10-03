@@ -3,6 +3,10 @@ package com.hongnhung.faneventbooking.hooks;
 import com.hongnhung.faneventbooking.driver.DriverManager;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 
 public class ScenarioHooks {
 
@@ -18,7 +22,33 @@ public class ScenarioHooks {
     }
 
     @After
-    public void afterScenario() {
-        driverManager.quitDriver();
+    public void afterScenario(Scenario scenario) {
+
+        try {
+
+            if (scenario.isFailed()
+                    && driverManager.isStarted()) {
+
+                WebDriver driver =
+                        driverManager.getDriver();
+
+                byte[] screenshot =
+                        ((TakesScreenshot) driver)
+                                .getScreenshotAs(
+                                        OutputType.BYTES
+                                );
+
+                scenario.attach(
+                        screenshot,
+                        "image/png",
+                        "Screenshot - "
+                                + scenario.getName()
+                );
+            }
+
+        } finally {
+
+            driverManager.quitDriver();
+        }
     }
 }

@@ -1,0 +1,11 @@
+testCaseId,username,password,expectedResult,expectedError
+SD_LOGIN_001,standard_user,secret_sauce,SUCCESS,
+SD_LOGIN_002,invalid_user,secret_sauce,ERROR,Epic sadface: Username and password do not match any user in this service
+SD_LOGIN_003,standard_user,wrong_password,ERROR,Epic sadface: Username and password do not match any user in this service
+SD_LOGIN_004,,secret_sauce,ERROR,Epic sadface: Username is required
+SD_LOGIN_005,standard_user,,ERROR,Epic sadface: Password is required
+SD_LOGIN_006,,,ERROR,Epic sadface: Username is required
+SD_LOGIN_007,locked_out_user,secret_sauce,ERROR,"Epic sadface: Sorry, this user has been locked out."
+SD_LOGIN_008,STANDARD_USER,secret_sauce,ERROR,Epic sadface: Username and password do not match any user in this service
+SD_LOGIN_009,standard_user,SECRET_SAUCE,ERROR,Epic sadface: Username and password do not match any user in this service
+SD_LOGIN_010," standard_user ",secret_sauce,ERROR,Epic sadface: Username and password do not match any user in this service

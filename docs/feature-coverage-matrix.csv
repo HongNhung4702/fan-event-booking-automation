@@ -1,0 +1,17 @@
+Feature,CoverageItem,TestCaseIds,PositiveCount,NegativeCount,EdgeCount,TotalTestCases,AutomatedTests,PassedTests,FailedTests,AutomationCoverage,Status
+Login,Đăng nhập thành công,SD_LOGIN_001,1,0,0,1,1,1,0,100%,Completed
+Login,Sai username hoặc password,SD_LOGIN_002; SD_LOGIN_003,0,2,0,2,2,2,0,100%,Completed
+Login,Kiểm tra trường bắt buộc,SD_LOGIN_004; SD_LOGIN_005; SD_LOGIN_006,0,3,0,3,3,3,0,100%,Completed
+Login,Tài khoản bị khóa,SD_LOGIN_007,0,1,0,1,1,1,0,100%,Completed
+Login,Kiểm tra phân biệt chữ hoa chữ thường,SD_LOGIN_008; SD_LOGIN_009,0,0,2,2,2,2,0,100%,Completed
+Login,Kiểm tra khoảng trắng đầu cuối,SD_LOGIN_010,0,0,1,1,1,1,0,100%,Completed
+Search,Tìm kiếm bằng tên sản phẩm chính xác,AE_SEARCH_001; AE_SEARCH_005,2,0,0,2,2,2,0,100%,Completed
+Search,Tìm kiếm bằng từ khóa hoặc một phần tên sản phẩm,AE_SEARCH_002; AE_SEARCH_003; AE_SEARCH_004,3,0,0,3,3,3,0,100%,Completed
+Search,Tìm kiếm sản phẩm không tồn tại,AE_SEARCH_006,0,1,0,1,1,1,0,100%,Completed
+Search,Dữ liệu rỗng và khoảng trắng,AE_SEARCH_007; AE_SEARCH_008,0,0,2,2,2,2,0,100%,Completed
+Search,Kiểm tra chữ hoa chữ thường,AE_SEARCH_009; AE_SEARCH_010,0,0,2,2,2,2,0,100%,Completed
+Search,Ký tự đặc biệt và dữ liệu số,AE_SEARCH_011; AE_SEARCH_012,0,0,2,2,2,2,0,100%,Completed
+Search,Chuỗi dữ liệu dài 256 ký tự,AE_SEARCH_013,0,0,1,1,1,1,0,100%,Completed
+Search,Tìm kiếm liên tiếp,AE_SEARCH_014,1,0,0,1,1,1,0,100%,Completed
+Search,Mở chi tiết sản phẩm từ kết quả tìm kiếm,AE_SEARCH_015,1,0,0,1,1,1,0,100%,Completed
+TOTAL,Login + Search,SD_LOGIN_001-SD_LOGIN_010; AE_SEARCH_001-AE_SEARCH_015,8,7,10,25,25,25,0,100%,Completed

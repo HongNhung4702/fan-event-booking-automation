@@ -1,0 +1,26 @@
+TestCaseId,Feature,TestCaseDescription,TestType,FeatureFile,ScenarioType,TestDataFile,ExpectedResult,AutomationStatus
+SD_LOGIN_001,Login,Đăng nhập thành công với username và password hợp lệ,Positive,Login.feature,Scenario,login-data.csv,Đăng nhập thành công và chuyển đến trang Products,PASS
+SD_LOGIN_002,Login,Đăng nhập với username không tồn tại,Negative,Login.feature,Scenario Outline,login-data.csv,Hiển thị lỗi Username and password do not match any user in this service,PASS
+SD_LOGIN_003,Login,Đăng nhập với password không chính xác,Negative,Login.feature,Scenario Outline,login-data.csv,Hiển thị lỗi Username and password do not match any user in this service,PASS
+SD_LOGIN_004,Login,Đăng nhập khi bỏ trống username,Negative,Login.feature,Scenario Outline,login-data.csv,Hiển thị lỗi Username is required,PASS
+SD_LOGIN_005,Login,Đăng nhập khi bỏ trống password,Negative,Login.feature,Scenario Outline,login-data.csv,Hiển thị lỗi Password is required,PASS
+SD_LOGIN_006,Login,Đăng nhập khi bỏ trống cả username và password,Negative,Login.feature,Scenario Outline,login-data.csv,Hiển thị lỗi Username is required,PASS
+SD_LOGIN_007,Login,Đăng nhập bằng tài khoản bị khóa,Negative,Login.feature,Scenario Outline,login-data.csv,Hiển thị lỗi tài khoản đã bị khóa,PASS
+SD_LOGIN_008,Login,Kiểm tra username viết hoa,Edge,Login.feature,Scenario Outline,login-data.csv,Hệ thống từ chối thông tin đăng nhập không hợp lệ,PASS
+SD_LOGIN_009,Login,Kiểm tra password viết hoa,Edge,Login.feature,Scenario Outline,login-data.csv,Hệ thống từ chối thông tin đăng nhập không hợp lệ,PASS
+SD_LOGIN_010,Login,Kiểm tra username có khoảng trắng ở đầu và cuối,Edge,Login.feature,Scenario Outline,login-data.csv,Hệ thống từ chối thông tin đăng nhập không hợp lệ,PASS
+AE_SEARCH_001,Search,Tìm kiếm bằng tên sản phẩm Blue Top,Positive,Search.feature,Scenario Outline,search-data.csv,Hiển thị SEARCHED PRODUCTS và sản phẩm Blue Top,PASS
+AE_SEARCH_002,Search,Tìm kiếm bằng một phần tên sản phẩm Top,Positive,Search.feature,Scenario Outline,search-data.csv,Hiển thị danh sách sản phẩm phù hợp với từ khóa Top,PASS
+AE_SEARCH_003,Search,Tìm kiếm sản phẩm bằng từ khóa Dress,Positive,Search.feature,Scenario Outline,search-data.csv,Hiển thị danh sách sản phẩm phù hợp với từ khóa Dress,PASS
+AE_SEARCH_004,Search,Tìm kiếm sản phẩm bằng từ khóa Jeans,Positive,Search.feature,Scenario Outline,search-data.csv,Hiển thị danh sách sản phẩm phù hợp với từ khóa Jeans,PASS
+AE_SEARCH_005,Search,Tìm kiếm bằng tên đầy đủ Pure Cotton V-Neck T-Shirt,Positive,Search.feature,Scenario Outline,search-data.csv,Hiển thị sản phẩm phù hợp với tên tìm kiếm,PASS
+AE_SEARCH_006,Search,Tìm kiếm sản phẩm không tồn tại,Negative,Search.feature,Scenario,search-data.csv,Hiển thị SEARCHED PRODUCTS nhưng không có sản phẩm,PASS
+AE_SEARCH_007,Search,Tìm kiếm với dữ liệu rỗng,Edge,Search.feature,Scenario Outline,search-data.csv,Hệ thống vẫn hoạt động ổn định và không phát sinh lỗi,PASS
+AE_SEARCH_008,Search,Tìm kiếm chỉ chứa khoảng trắng,Edge,Search.feature,Scenario Outline,search-data.csv,Hệ thống vẫn hoạt động ổn định và không phát sinh lỗi,PASS
+AE_SEARCH_009,Search,Tìm kiếm bằng từ khóa viết thường blue top,Edge,Search.feature,Scenario Outline,search-data.csv,Hệ thống xử lý tìm kiếm ổn định,PASS
+AE_SEARCH_010,Search,Tìm kiếm bằng từ khóa viết hoa TOP,Edge,Search.feature,Scenario Outline,search-data.csv,Hệ thống xử lý tìm kiếm ổn định,PASS
+AE_SEARCH_011,Search,Tìm kiếm bằng ký tự đặc biệt,Edge,Search.feature,Scenario Outline,search-data.csv,Hệ thống vẫn hoạt động ổn định và không phát sinh lỗi,PASS
+AE_SEARCH_012,Search,Tìm kiếm bằng chuỗi số,Edge,Search.feature,Scenario Outline,search-data.csv,Hệ thống vẫn hoạt động ổn định và không phát sinh lỗi,PASS
+AE_SEARCH_013,Search,Tìm kiếm bằng chuỗi dài 256 ký tự,Edge,Search.feature,Scenario Outline,search-data.csv,Hệ thống vẫn hoạt động ổn định và không phát sinh lỗi,PASS
+AE_SEARCH_014,Search,Thực hiện hai lần tìm kiếm liên tiếp,Positive,Search.feature,Scenario,search-data.csv,Cả hai lần tìm kiếm đều trả về kết quả phù hợp,PASS
+AE_SEARCH_015,Search,Mở trang chi tiết sản phẩm từ kết quả tìm kiếm,Positive,Search.feature,Scenario,search-data.csv,Trang chi tiết của sản phẩm được hiển thị đúng,PASS
