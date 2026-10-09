@@ -7,41 +7,32 @@ import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
 public class AutomationExerciseProductsPage extends BasePage {
 
-    private final By productsMenu =
-            By.cssSelector("a[href='/products']");
+    @FindBy(css = "a[href='/products']")
+    private WebElement productsMenu;
 
-    private final By allProductsTitle =
-            By.xpath(
-                    "//h2[contains(@class,'title') " +
-                            "and normalize-space()='All Products']"
-            );
+    @FindBy(xpath = "//h2[contains(@class,'title') and normalize-space()='All Products']")
+    private WebElement allProductsTitle;
 
-    private final By searchInput =
-            By.id("search_product");
+    @FindBy(id = "search_product")
+    private WebElement searchInput;
 
-    private final By searchButton =
-            By.id("submit_search");
+    @FindBy(id = "submit_search")
+    private WebElement searchButton;
 
-    private final By searchedProductsTitle =
-            By.xpath(
-                    "//h2[contains(@class,'title') " +
-                            "and normalize-space()='Searched Products']"
-            );
+    @FindBy(xpath = "//h2[contains(@class,'title') and normalize-space()='Searched Products']")
+    private WebElement searchedProductsTitle;
 
-    private final By productNames =
-            By.cssSelector(
-                    ".features_items .productinfo p"
-            );
+    @FindBy(css = ".features_items .productinfo p")
+    private List<WebElement> productNames;
 
-    private final By productDetailName =
-            By.cssSelector(
-                    ".product-information h2"
-            );
+    @FindBy(css = ".product-information h2")
+    private WebElement productDetailName;
 
     public AutomationExerciseProductsPage(
             DriverManager driverManager
@@ -50,7 +41,6 @@ public class AutomationExerciseProductsPage extends BasePage {
     }
 
     public void openHomePage() {
-
         navigateTo(
                 ConfigManager.get(
                         "automationexercise.url"
@@ -59,9 +49,7 @@ public class AutomationExerciseProductsPage extends BasePage {
     }
 
     public void openProductsPage() {
-
         try {
-
             click(productsMenu);
 
             waitUntilVisible(
@@ -81,69 +69,43 @@ public class AutomationExerciseProductsPage extends BasePage {
     }
 
     public boolean isAllProductsDisplayed() {
-
         try {
-
             return waitUntilVisible(
                     allProductsTitle
             ).isDisplayed();
 
         } catch (TimeoutException e) {
-
             return false;
         }
     }
 
-    public void enterSearchKeyword(
-            String keyword
-    ) {
-
-        waitUntilVisible(
-                searchInput
-        );
-
-        type(
-                searchInput,
-                keyword
-        );
+    public void enterSearchKeyword(String keyword) {
+        waitUntilVisible(searchInput);
+        type(searchInput, keyword);
     }
 
     public void clickSearch() {
-
-        click(
-                searchButton
-        );
+        click(searchButton);
     }
 
-    public void search(
-            String keyword
-    ) {
-
-        enterSearchKeyword(
-                keyword
-        );
-
+    public void search(String keyword) {
+        enterSearchKeyword(keyword);
         clickSearch();
     }
 
     public boolean isSearchedProductsDisplayed() {
-
         try {
-
             return waitUntilVisible(
                     searchedProductsTitle
             ).isDisplayed();
 
         } catch (TimeoutException e) {
-
             return false;
         }
     }
 
     public List<String> getProductNames() {
-
-        return driver
-                .findElements(productNames)
+        return productNames
                 .stream()
                 .filter(WebElement::isDisplayed)
                 .map(WebElement::getText)
@@ -153,85 +115,60 @@ public class AutomationExerciseProductsPage extends BasePage {
     }
 
     public int getProductCount() {
-
-        return getProductNames()
-                .size();
+        return getProductNames().size();
     }
 
-    public boolean isProductDisplayed(
-            String productName
-    ) {
+    public boolean isProductDisplayed(String productName) {
 
-        By product =
-                By.xpath(
-                        "//div[contains(@class,'features_items')]" +
-                                "//div[contains(@class,'productinfo')]" +
-                                "//p[normalize-space()="
-                                + toXPathLiteral(productName)
-                                + "]"
-                );
+        By product = By.xpath(
+                "//div[contains(@class,'features_items')]" +
+                        "//div[contains(@class,'productinfo')]" +
+                        "//p[normalize-space()="
+                        + toXPathLiteral(productName)
+                        + "]"
+        );
 
         try {
-
-            WebElement element =
-                    waitUntilVisible(
-                            product
-                    );
-
+            WebElement element = waitUntilVisible(product);
             return element.isDisplayed();
 
         } catch (TimeoutException e) {
-
             return false;
         }
     }
 
-    public boolean containsProductKeyword(
-            String keyword
-    ) {
+    public boolean containsProductKeyword(String keyword) {
 
-        if (keyword == null
-                || keyword.isBlank()) {
-
+        if (keyword == null || keyword.isBlank()) {
             return false;
         }
 
-        String expected =
-                normalizeText(keyword)
-                        .toLowerCase();
+        String expected = normalizeText(keyword)
+                .toLowerCase();
 
         return getProductNames()
                 .stream()
                 .map(String::toLowerCase)
                 .anyMatch(
                         productName ->
-                                productName.contains(
-                                        expected
-                                )
+                                productName.contains(expected)
                 );
     }
 
-    public void openProductDetails(
-            String productName
-    ) {
+    public void openProductDetails(String productName) {
 
-        By viewProduct =
-                By.xpath(
-                        "//div[contains(@class,'product-image-wrapper')]" +
-                                "[.//div[contains(@class,'productinfo')]" +
-                                "//p[normalize-space()="
-                                + toXPathLiteral(productName)
-                                + "]]" +
-                                "//a[contains(@href,'/product_details/')]"
-                );
+        By viewProduct = By.xpath(
+                "//div[contains(@class,'product-image-wrapper')]" +
+                        "[.//div[contains(@class,'productinfo')]" +
+                        "//p[normalize-space()="
+                        + toXPathLiteral(productName)
+                        + "]]" +
+                        "//a[contains(@href,'/product_details/')]"
+        );
 
-        WebElement element =
-                waitUntilVisible(
-                        viewProduct
-                );
+        WebElement element = waitUntilVisible(viewProduct);
 
-        JavascriptExecutor js =
-                (JavascriptExecutor) driver;
+        JavascriptExecutor js = (JavascriptExecutor) driver;
 
         js.executeScript(
                 "arguments[0].scrollIntoView({block:'center'});",
@@ -239,28 +176,21 @@ public class AutomationExerciseProductsPage extends BasePage {
         );
 
         try {
-
             element.click();
 
         } catch (ElementClickInterceptedException e) {
-
             js.executeScript(
                     "arguments[0].click();",
                     element
             );
         }
 
-        waitUntilVisible(
-                productDetailName
-        );
+        waitUntilVisible(productDetailName);
     }
 
     public String getProductDetailName() {
-
         return normalizeText(
-                getText(
-                        productDetailName
-                )
+                getText(productDetailName)
         );
     }
 
@@ -268,58 +198,39 @@ public class AutomationExerciseProductsPage extends BasePage {
             String expectedProductName
     ) {
 
-        String expected =
-                normalizeText(
-                        expectedProductName
-                );
+        String expected = normalizeText(expectedProductName);
+        String actual = getProductDetailName();
 
-        String actual =
-                getProductDetailName();
-
-        return expected.equalsIgnoreCase(
-                actual
-        );
+        return expected.equalsIgnoreCase(actual);
     }
 
     public boolean isPageWorkingNormally() {
 
-        String currentUrl =
-                driver.getCurrentUrl();
-
-        String title =
-                driver.getTitle();
+        String currentUrl = driver.getCurrentUrl();
+        String title = driver.getTitle();
 
         return currentUrl != null
-                && currentUrl.contains(
-                "automationexercise.com"
-        )
+                && currentUrl.contains("automationexercise.com")
                 && title != null
                 && !title.isBlank();
     }
 
     private String getProductsUrl() {
 
-        String baseUrl =
-                ConfigManager.get(
-                        "automationexercise.url"
-                );
+        String baseUrl = ConfigManager.get(
+                "automationexercise.url"
+        );
 
         if (baseUrl.endsWith("/")) {
-
-            return baseUrl
-                    + "products";
+            return baseUrl + "products";
         }
 
-        return baseUrl
-                + "/products";
+        return baseUrl + "/products";
     }
 
-    private String normalizeText(
-            String text
-    ) {
+    private String normalizeText(String text) {
 
         if (text == null) {
-
             return "";
         }
 
@@ -329,51 +240,28 @@ public class AutomationExerciseProductsPage extends BasePage {
                         "[\\u200B-\\u200D\\uFEFF]",
                         ""
                 )
-                .replaceAll(
-                        "\\s+",
-                        " "
-                )
+                .replaceAll("\\s+", " ")
                 .trim();
     }
 
-    private String toXPathLiteral(
-            String value
-    ) {
+    private String toXPathLiteral(String value) {
 
         if (!value.contains("'")) {
-
-            return "'"
-                    + value
-                    + "'";
+            return "'" + value + "'";
         }
 
         if (!value.contains("\"")) {
-
-            return "\""
-                    + value
-                    + "\"";
+            return "\"" + value + "\"";
         }
 
-        String[] parts =
-                value.split(
-                        "'",
-                        -1
-                );
+        String[] parts = value.split("'", -1);
 
-        StringBuilder xpath =
-                new StringBuilder(
-                        "concat("
-                );
+        StringBuilder xpath = new StringBuilder("concat(");
 
-        for (int i = 0;
-             i < parts.length;
-             i++) {
+        for (int i = 0; i < parts.length; i++) {
 
             if (i > 0) {
-
-                xpath.append(
-                        ", \"'\", "
-                );
+                xpath.append(", \"'\", ");
             }
 
             xpath.append("'")

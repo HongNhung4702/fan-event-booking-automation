@@ -3,8 +3,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="
-             http://maven.apache.org/POM/4.0.0
-             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+            http://maven.apache.org/POM/4.0.0
+            https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -16,7 +16,8 @@
 
     <description>
         BDD Web Automation Testing project using
-        Cucumber, Selenium WebDriver and TestNG.
+        Cucumber, Selenium WebDriver, WebDriverManager
+        and TestNG.
     </description>
 
     <properties>
@@ -32,6 +33,7 @@
         <cucumber.version>7.34.8</cucumber.version>
         <selenium.version>4.49.0</selenium.version>
         <testng.version>7.12.0</testng.version>
+        <webdrivermanager.version>6.3.4</webdrivermanager.version>
 
         <!-- Maven Plugins -->
         <maven.compiler.plugin.version>3.16.0</maven.compiler.plugin.version>
@@ -73,6 +75,14 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- WebDriverManager -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${webdrivermanager.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- TestNG -->
         <dependency>
             <groupId>org.testng</groupId>
@@ -84,7 +94,6 @@
     </dependencies>
 
     <build>
-
         <plugins>
 
             <!-- Java Compiler -->
@@ -94,15 +103,8 @@
                 <version>${maven.compiler.plugin.version}</version>
 
                 <configuration>
-
-                    <release>
-                        ${maven.compiler.release}
-                    </release>
-
-                    <encoding>
-                        ${project.build.sourceEncoding}
-                    </encoding>
-
+                    <release>${maven.compiler.release}</release>
+                    <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
 
@@ -114,9 +116,6 @@
 
                 <configuration>
 
-                    <!--
-                    Bắt buộc JVM chạy TestNG/Cucumber sử dụng UTF-8
-                    -->
                     <argLine>
                         -Dfile.encoding=UTF-8
                         -Dsun.stdout.encoding=UTF-8
@@ -124,19 +123,13 @@
                     </argLine>
 
                     <systemPropertyVariables>
-
-                        <file.encoding>
-                            UTF-8
-                        </file.encoding>
-
+                        <file.encoding>UTF-8</file.encoding>
                     </systemPropertyVariables>
 
                 </configuration>
-
             </plugin>
 
         </plugins>
-
     </build>
 
 </project>

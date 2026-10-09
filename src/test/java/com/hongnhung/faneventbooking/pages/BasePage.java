@@ -5,6 +5,7 @@ import com.hongnhung.faneventbooking.driver.DriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -17,6 +18,8 @@ public abstract class BasePage {
 
     protected BasePage(DriverManager driverManager) {
         this.driver = driverManager.getDriver();
+
+        PageFactory.initElements(driver, this);
 
         this.wait = new WebDriverWait(
                 driver,
@@ -56,6 +59,41 @@ public abstract class BasePage {
         try {
             return waitUntilVisible(locator).isDisplayed();
         } catch (RuntimeException exception) {
+            return false;
+        }
+    }
+
+    protected WebElement waitUntilVisible(WebElement element) {
+        return wait.until(
+                ExpectedConditions.visibilityOf(element)
+        );
+    }
+
+    protected WebElement waitUntilClickable(WebElement element) {
+        return wait.until(
+                ExpectedConditions.elementToBeClickable(element)
+        );
+    }
+
+    protected void click(WebElement element) {
+        waitUntilClickable(element).click();
+    }
+
+    protected void type(WebElement element, String value) {
+        WebElement visible = waitUntilVisible(element);
+        visible.clear();
+        visible.sendKeys(value);
+    }
+
+    protected String getText(WebElement element) {
+        return waitUntilVisible(element).getText().trim();
+    }
+
+    protected boolean isDisplayed(WebElement element) {
+        try {
+            return waitUntilVisible(element).isDisplayed();
+        } catch (org.openqa.selenium.TimeoutException |
+                 org.openqa.selenium.NoSuchElementException exception) {
             return false;
         }
     }

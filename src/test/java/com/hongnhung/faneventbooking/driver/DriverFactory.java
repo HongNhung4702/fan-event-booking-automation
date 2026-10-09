@@ -1,15 +1,23 @@
+
 package com.hongnhung.faneventbooking.driver;
 
 import com.hongnhung.faneventbooking.config.ConfigManager;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
+
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
+
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
+
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public final class DriverFactory {
@@ -19,52 +27,46 @@ public final class DriverFactory {
 
     public static WebDriver createDriver() {
 
-        String browser =
+        String browser = System.getProperty(
+                "browser",
                 ConfigManager.get("browser")
-                        .toLowerCase();
+        ).trim().toLowerCase(Locale.ROOT);
 
-        boolean headless =
-                ConfigManager.getBoolean(
-                        "browser.headless"
-                );
+        boolean headless = ConfigManager.getBoolean(
+                "browser.headless"
+        );
 
         return switch (browser) {
 
-            case "chrome" ->
-                    createChromeDriver(headless);
+            case "chrome" -> createChromeDriver(headless);
 
-            case "firefox" ->
-                    createFirefoxDriver(headless);
+            case "firefox" -> createFirefoxDriver(headless);
 
-            case "edge" ->
-                    createEdgeDriver(headless);
+            case "edge" -> createEdgeDriver(headless);
 
-            default ->
-                    throw new IllegalArgumentException(
-                            "Browser không được hỗ trợ: "
-                                    + browser
-                    );
+            default -> throw new IllegalArgumentException(
+                    "Browser không được hỗ trợ: " + browser
+            );
         };
     }
+
+    // =====================================================
+    // CHROME DRIVER
+    // =====================================================
 
     private static WebDriver createChromeDriver(
             boolean headless
     ) {
 
-        ChromeOptions options =
-                new ChromeOptions();
+        WebDriverManager.chromedriver().setup();
+
+        ChromeOptions options = new ChromeOptions();
 
         if (headless) {
-
-            options.addArguments(
-                    "--headless=new"
-            );
+            options.addArguments("--headless=new");
         }
 
-        /*
-         * Chặn các domain quảng cáo thường xuất hiện
-         * trên Automation Exercise.
-         */
+        // Chặn các domain quảng cáo
         options.addArguments(
                 "--host-resolver-rules=" +
                         "MAP googleads.g.doubleclick.net 0.0.0.0, " +
@@ -81,8 +83,7 @@ public final class DriverFactory {
                 "--disable-extensions"
         );
 
-        Map<String, Object> prefs =
-                new HashMap<>();
+        Map<String, Object> prefs = new HashMap<>();
 
         prefs.put(
                 "profile.default_content_setting_values.notifications",
@@ -94,59 +95,87 @@ public final class DriverFactory {
                 2
         );
 
-        options.setExperimentalOption(
-                "prefs",
-                prefs
-        );
+        options.setExperimentalOption("prefs", prefs);
 
-        return new ChromeDriver(
-                options
-        );
+        return new ChromeDriver(options);
     }
+
+    // =====================================================
+    // FIREFOX DRIVER
+    // =====================================================
 
     private static WebDriver createFirefoxDriver(
             boolean headless
     ) {
 
-        FirefoxOptions options =
-                new FirefoxOptions();
+        WebDriverManager.firefoxdriver().setup();
+
+        FirefoxOptions options = new FirefoxOptions();
+
+        /*
+         * EAGER:
+         * Selenium không cần đợi toàn bộ hình ảnh,
+         * quảng cáo và tài nguyên phụ tải hoàn tất.
+         *
+         * Giúp giảm nguy cơ Navigation Timeout.
+         */
+        options.setPageLoadStrategy(
+                PageLoadStrategy.EAGER
+        );
 
         if (headless) {
-
-            options.addArguments(
-                    "-headless"
-            );
+            options.addArguments("-headless");
         }
 
+        // Tắt thông báo
         options.addPreference(
                 "dom.webnotifications.enabled",
                 false
         );
 
+        // Chặn cửa sổ popup
         options.addPreference(
                 "dom.disable_open_during_load",
                 true
         );
 
-        return new FirefoxDriver(
-                options
+        // Enhanced Tracking Protection
+        options.addPreference(
+                "browser.contentblocking.category",
+                "strict"
         );
+
+        options.addPreference(
+                "privacy.trackingprotection.enabled",
+                true
+        );
+
+        // Chặn tracking cookies
+        options.addPreference(
+                "privacy.trackingprotection.socialtracking.enabled",
+                true
+        );
+
+        return new FirefoxDriver(options);
     }
+
+    // =====================================================
+    // EDGE DRIVER
+    // =====================================================
 
     private static WebDriver createEdgeDriver(
             boolean headless
     ) {
 
-        EdgeOptions options =
-                new EdgeOptions();
+        WebDriverManager.edgedriver().setup();
+
+        EdgeOptions options = new EdgeOptions();
 
         if (headless) {
-
-            options.addArguments(
-                    "--headless=new"
-            );
+            options.addArguments("--headless=new");
         }
 
+        // Chặn domain quảng cáo
         options.addArguments(
                 "--host-resolver-rules=" +
                         "MAP googleads.g.doubleclick.net 0.0.0.0, " +
@@ -163,8 +192,6 @@ public final class DriverFactory {
                 "--disable-extensions"
         );
 
-        return new EdgeDriver(
-                options
-        );
+        return new EdgeDriver(options);
     }
 }

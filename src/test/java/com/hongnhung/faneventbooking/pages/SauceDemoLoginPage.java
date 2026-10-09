@@ -2,19 +2,25 @@ package com.hongnhung.faneventbooking.pages;
 
 import com.hongnhung.faneventbooking.config.ConfigManager;
 import com.hongnhung.faneventbooking.driver.DriverManager;
-import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 public class SauceDemoLoginPage extends BasePage {
 
-    private final By usernameInput = By.id("user-name");
-    private final By passwordInput = By.id("password");
-    private final By loginButton = By.id("login-button");
+    @FindBy(id = "user-name")
+    private WebElement usernameInput;
 
-    private final By loginError =
-            By.cssSelector("[data-test='error']");
+    @FindBy(id = "password")
+    private WebElement passwordInput;
 
-    private final By productsTitle =
-            By.cssSelector(".title");
+    @FindBy(id = "login-button")
+    private WebElement loginButton;
+
+    @FindBy(css = "[data-test='error']")
+    private WebElement loginError;
+
+    @FindBy(css = ".title")
+    private WebElement productsTitle;
 
     public SauceDemoLoginPage(DriverManager driverManager) {
         super(driverManager);
