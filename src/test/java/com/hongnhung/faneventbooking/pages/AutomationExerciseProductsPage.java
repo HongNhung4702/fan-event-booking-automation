@@ -11,12 +11,33 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class AutomationExerciseProductsPage extends BasePage {
+public class AutomationExerciseProductsPage
+        extends BasePage {
+
+    private static final By HOME_READY_LOCATOR =
+            By.cssSelector(
+                    "a[href='/products']"
+            );
+
+    private static final By ALL_PRODUCTS_READY_LOCATOR =
+            By.xpath(
+                    "//h2[contains(@class,'title') "
+                            + "and normalize-space()='All Products']"
+            );
+
+    private static final By PRODUCT_DETAIL_READY_LOCATOR =
+            By.cssSelector(
+                    ".product-information h2"
+            );
 
     @FindBy(css = "a[href='/products']")
     private WebElement productsMenu;
 
-    @FindBy(xpath = "//h2[contains(@class,'title') and normalize-space()='All Products']")
+    @FindBy(
+            xpath =
+                    "//h2[contains(@class,'title') "
+                            + "and normalize-space()='All Products']"
+    )
     private WebElement allProductsTitle;
 
     @FindBy(id = "search_product")
@@ -25,172 +46,304 @@ public class AutomationExerciseProductsPage extends BasePage {
     @FindBy(id = "submit_search")
     private WebElement searchButton;
 
-    @FindBy(xpath = "//h2[contains(@class,'title') and normalize-space()='Searched Products']")
+    @FindBy(
+            xpath =
+                    "//h2[contains(@class,'title') "
+                            + "and normalize-space()='Searched Products']"
+    )
     private WebElement searchedProductsTitle;
 
-    @FindBy(css = ".features_items .productinfo p")
+    @FindBy(
+            css =
+                    ".features_items "
+                            + ".productinfo p"
+    )
     private List<WebElement> productNames;
 
-    @FindBy(css = ".product-information h2")
+    @FindBy(
+            css =
+                    ".product-information h2"
+    )
     private WebElement productDetailName;
 
     public AutomationExerciseProductsPage(
             DriverManager driverManager
     ) {
+
         super(driverManager);
     }
 
     public void openHomePage() {
-        navigateTo(
-                ConfigManager.get(
-                        "automationexercise.url"
-                )
+
+        navigateToAndWaitUntilReady(
+                getBaseUrl(),
+                HOME_READY_LOCATOR,
+                "Home"
         );
     }
 
     public void openProductsPage() {
+
+        /*
+         * Vẫn click menu thật để giữ đúng hành vi
+         * của test Search.
+         *
+         * Chỉ khi trang sau click không sẵn sàng
+         * mới fallback sang navigation có retry.
+         */
         try {
-            click(productsMenu);
+
+            click(
+                    productsMenu
+            );
 
             waitUntilVisible(
                     allProductsTitle
             );
 
-        } catch (TimeoutException e) {
+        } catch (
+                TimeoutException exception
+        ) {
 
-            navigateTo(
-                    getProductsUrl()
-            );
-
-            waitUntilVisible(
-                    allProductsTitle
+            navigateToAndWaitUntilReady(
+                    getProductsUrl(),
+                    ALL_PRODUCTS_READY_LOCATOR,
+                    "Products"
             );
         }
     }
 
     public boolean isAllProductsDisplayed() {
+
         try {
+
             return waitUntilVisible(
                     allProductsTitle
             ).isDisplayed();
 
-        } catch (TimeoutException e) {
+        } catch (
+                TimeoutException exception
+        ) {
+
             return false;
         }
     }
 
-    public void enterSearchKeyword(String keyword) {
-        waitUntilVisible(searchInput);
-        type(searchInput, keyword);
+    public void enterSearchKeyword(
+            String keyword
+    ) {
+
+        waitUntilVisible(
+                searchInput
+        );
+
+        type(
+                searchInput,
+                keyword
+        );
     }
 
     public void clickSearch() {
-        click(searchButton);
+
+        click(
+                searchButton
+        );
     }
 
-    public void search(String keyword) {
-        enterSearchKeyword(keyword);
+    public void search(
+            String keyword
+    ) {
+
+        enterSearchKeyword(
+                keyword
+        );
+
         clickSearch();
     }
 
     public boolean isSearchedProductsDisplayed() {
+
         try {
+
             return waitUntilVisible(
                     searchedProductsTitle
             ).isDisplayed();
 
-        } catch (TimeoutException e) {
+        } catch (
+                TimeoutException exception
+        ) {
+
             return false;
         }
     }
 
     public List<String> getProductNames() {
+
         return productNames
                 .stream()
-                .filter(WebElement::isDisplayed)
-                .map(WebElement::getText)
-                .map(this::normalizeText)
-                .filter(name -> !name.isBlank())
+                .filter(
+                        WebElement::isDisplayed
+                )
+                .map(
+                        WebElement::getText
+                )
+                .map(
+                        this::normalizeText
+                )
+                .filter(
+                        name ->
+                                !name.isBlank()
+                )
                 .toList();
     }
 
     public int getProductCount() {
-        return getProductNames().size();
+
+        return getProductNames()
+                .size();
     }
 
-    public boolean isProductDisplayed(String productName) {
+    public boolean isProductDisplayed(
+            String productName
+    ) {
 
-        By product = By.xpath(
-                "//div[contains(@class,'features_items')]" +
-                        "//div[contains(@class,'productinfo')]" +
-                        "//p[normalize-space()="
-                        + toXPathLiteral(productName)
-                        + "]"
-        );
+        By product =
+                By.xpath(
+                        "//div[contains(@class,'features_items')]"
+                                + "//div[contains(@class,'productinfo')]"
+                                + "//p[normalize-space()="
+                                + toXPathLiteral(
+                                productName
+                        )
+                                + "]"
+                );
 
         try {
-            WebElement element = waitUntilVisible(product);
+
+            WebElement element =
+                    waitUntilVisible(
+                            product
+                    );
+
             return element.isDisplayed();
 
-        } catch (TimeoutException e) {
+        } catch (
+                TimeoutException exception
+        ) {
+
             return false;
         }
     }
 
-    public boolean containsProductKeyword(String keyword) {
+    public boolean containsProductKeyword(
+            String keyword
+    ) {
 
-        if (keyword == null || keyword.isBlank()) {
+        if (keyword == null
+                || keyword.isBlank()) {
+
             return false;
         }
 
-        String expected = normalizeText(keyword)
-                .toLowerCase();
+        String expected =
+                normalizeText(
+                        keyword
+                )
+                        .toLowerCase();
 
         return getProductNames()
                 .stream()
-                .map(String::toLowerCase)
+                .map(
+                        String::toLowerCase
+                )
                 .anyMatch(
                         productName ->
-                                productName.contains(expected)
+                                productName.contains(
+                                        expected
+                                )
                 );
     }
 
-    public void openProductDetails(String productName) {
+    public void openProductDetails(
+            String productName
+    ) {
 
-        By viewProduct = By.xpath(
-                "//div[contains(@class,'product-image-wrapper')]" +
-                        "[.//div[contains(@class,'productinfo')]" +
-                        "//p[normalize-space()="
-                        + toXPathLiteral(productName)
-                        + "]]" +
-                        "//a[contains(@href,'/product_details/')]"
-        );
+        By viewProduct =
+                By.xpath(
+                        "//div[contains(@class,'product-image-wrapper')]"
+                                + "[.//div[contains(@class,'productinfo')]"
+                                + "//p[normalize-space()="
+                                + toXPathLiteral(
+                                productName
+                        )
+                                + "]]"
+                                + "//a[contains(@href,"
+                                + "'/product_details/')]"
+                );
 
-        WebElement element = waitUntilVisible(viewProduct);
+        WebElement element =
+                waitUntilVisible(
+                        viewProduct
+                );
 
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+        String detailUrl =
+                element.getAttribute(
+                        "href"
+                );
+
+        JavascriptExecutor js =
+                (JavascriptExecutor) driver;
 
         js.executeScript(
-                "arguments[0].scrollIntoView({block:'center'});",
+                "arguments[0].scrollIntoView("
+                        + "{block:'center'});",
                 element
         );
 
         try {
-            element.click();
 
-        } catch (ElementClickInterceptedException e) {
-            js.executeScript(
-                    "arguments[0].click();",
-                    element
+            try {
+
+                element.click();
+
+            } catch (
+                    ElementClickInterceptedException exception
+            ) {
+
+                js.executeScript(
+                        "arguments[0].click();",
+                        element
+                );
+            }
+
+            waitUntilVisible(
+                    productDetailName
+            );
+
+        } catch (
+                TimeoutException exception
+        ) {
+
+            if (detailUrl == null
+                    || detailUrl.isBlank()) {
+
+                throw exception;
+            }
+
+            navigateToAndWaitUntilReady(
+                    detailUrl,
+                    PRODUCT_DETAIL_READY_LOCATOR,
+                    "Product Detail"
             );
         }
-
-        waitUntilVisible(productDetailName);
     }
 
     public String getProductDetailName() {
+
         return normalizeText(
-                getText(productDetailName)
+                getText(
+                        productDetailName
+                )
         );
     }
 
@@ -198,74 +351,133 @@ public class AutomationExerciseProductsPage extends BasePage {
             String expectedProductName
     ) {
 
-        String expected = normalizeText(expectedProductName);
-        String actual = getProductDetailName();
+        String expected =
+                normalizeText(
+                        expectedProductName
+                );
 
-        return expected.equalsIgnoreCase(actual);
+        String actual =
+                getProductDetailName();
+
+        return expected.equalsIgnoreCase(
+                actual
+        );
     }
 
     public boolean isPageWorkingNormally() {
 
-        String currentUrl = driver.getCurrentUrl();
-        String title = driver.getTitle();
+        String currentUrl =
+                driver.getCurrentUrl();
+
+        String title =
+                driver.getTitle();
 
         return currentUrl != null
-                && currentUrl.contains("automationexercise.com")
+                && currentUrl.contains(
+                "automationexercise.com"
+        )
                 && title != null
                 && !title.isBlank();
     }
 
     private String getProductsUrl() {
 
-        String baseUrl = ConfigManager.get(
-                "automationexercise.url"
-        );
-
-        if (baseUrl.endsWith("/")) {
-            return baseUrl + "products";
-        }
-
-        return baseUrl + "/products";
+        return getBaseUrl()
+                + "/products";
     }
 
-    private String normalizeText(String text) {
+    private String getBaseUrl() {
+
+        String baseUrl =
+                ConfigManager.get(
+                        "automationexercise.url"
+                );
+
+        while (
+                baseUrl.endsWith("/")
+        ) {
+
+            baseUrl =
+                    baseUrl.substring(
+                            0,
+                            baseUrl.length() - 1
+                    );
+        }
+
+        return baseUrl;
+    }
+
+    private String normalizeText(
+            String text
+    ) {
 
         if (text == null) {
+
             return "";
         }
 
         return text
-                .replace('\u00A0', ' ')
+                .replace(
+                        '\u00A0',
+                        ' '
+                )
                 .replaceAll(
                         "[\\u200B-\\u200D\\uFEFF]",
                         ""
                 )
-                .replaceAll("\\s+", " ")
+                .replaceAll(
+                        "\\s+",
+                        " "
+                )
                 .trim();
     }
 
-    private String toXPathLiteral(String value) {
+    private String toXPathLiteral(
+            String value
+    ) {
 
         if (!value.contains("'")) {
-            return "'" + value + "'";
+
+            return "'"
+                    + value
+                    + "'";
         }
 
         if (!value.contains("\"")) {
-            return "\"" + value + "\"";
+
+            return "\""
+                    + value
+                    + "\"";
         }
 
-        String[] parts = value.split("'", -1);
+        String[] parts =
+                value.split(
+                        "'",
+                        -1
+                );
 
-        StringBuilder xpath = new StringBuilder("concat(");
+        StringBuilder xpath =
+                new StringBuilder(
+                        "concat("
+                );
 
-        for (int i = 0; i < parts.length; i++) {
+        for (
+                int i = 0;
+                i < parts.length;
+                i++
+        ) {
 
             if (i > 0) {
-                xpath.append(", \"'\", ");
+
+                xpath.append(
+                        ", \"'\", "
+                );
             }
 
             xpath.append("'")
-                    .append(parts[i])
+                    .append(
+                            parts[i]
+                    )
                     .append("'");
         }
 

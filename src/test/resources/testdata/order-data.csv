@@ -1,0 +1,11 @@
+testCaseId,email,password,product1,product2,quantity,firstName,lastName,company,address1,address2,country,state,city,zipcode,mobile,cardName,cardNumber,cvc,expiryMonth,expiryYear,expectedResult
+AE_ORDER_001,ENV_AE_EMAIL,ENV_AE_PASSWORD,Blue Top,,1,,,,,,,,,,,,,,,,CART_HAS_PRODUCT
+AE_ORDER_002,ENV_AE_EMAIL,ENV_AE_PASSWORD,Blue Top,Soft Stretch Jeans,1,,,,,,,,,,,,,,,,CART_HAS_MULTIPLE_PRODUCTS
+AE_ORDER_003,ENV_AE_EMAIL,ENV_AE_PASSWORD,Blue Top,,4,,,,,,,,,,,,,,,,CART_QUANTITY_MATCH
+AE_ORDER_004,ENV_AE_EMAIL,ENV_AE_PASSWORD,Blue Top,,1,,,,,,,,,,,,,,,,PRODUCT_REMOVED
+AE_ORDER_005,,,Blue Top,,1,,,,,,,,,,,,,,,,LOGIN_REQUIRED
+AE_ORDER_006,ENV_AE_EMAIL,ENV_AE_PASSWORD,Blue Top,,1,,,,,,,,,,,,,,,,CHECKOUT_DISPLAYED
+AE_ORDER_007,ENV_AE_EMAIL,ENV_AE_PASSWORD,Blue Top,,1,Nhung,Automation,Fan Media,123 Automation Street,456 Automation Street,United States,California,Los Angeles,90001,0123456789,,,,,,ADDRESS_DISPLAYED
+AE_ORDER_008,ENV_AE_EMAIL,ENV_AE_PASSWORD,Blue Top,,1,Nhung,Automation,Fan Media,123 Automation Street,456 Automation Street,United States,California,Los Angeles,90001,0123456789,Automation User,4111111111111111,123,12,2030,ORDER_SUCCESS
+AE_ORDER_009,ENV_AE_EMAIL,ENV_AE_PASSWORD,Blue Top,Soft Stretch Jeans,1,Nhung,Automation,Fan Media,123 Automation Street,456 Automation Street,United States,California,Los Angeles,90001,0123456789,Automation User,4111111111111111,123,12,2030,ORDER_SUCCESS
+AE_ORDER_010,ENV_AE_EMAIL,ENV_AE_PASSWORD,Blue Top,,1,Nhung,Automation,Fan Media,123 Automation Street,456 Automation Street,United States,California,Los Angeles,90001,0123456789,Automation User,4111111111111111,123,12,2030,INVOICE_DOWNLOAD

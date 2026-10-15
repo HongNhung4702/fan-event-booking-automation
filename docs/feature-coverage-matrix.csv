@@ -14,4 +14,12 @@ Search,Ký tự đặc biệt và dữ liệu số,AE_SEARCH_011; AE_SEARCH_012,
 Search,Chuỗi dữ liệu dài 256 ký tự,AE_SEARCH_013,0,0,1,1,1,1,0,100%,Completed
 Search,Tìm kiếm liên tiếp,AE_SEARCH_014,1,0,0,1,1,1,0,100%,Completed
 Search,Mở chi tiết sản phẩm từ kết quả tìm kiếm,AE_SEARCH_015,1,0,0,1,1,1,0,100%,Completed
-TOTAL,Login + Search,SD_LOGIN_001-SD_LOGIN_010; AE_SEARCH_001-AE_SEARCH_015,8,7,10,25,25,25,0,100%,Completed
+Order,Thêm một hoặc nhiều sản phẩm vào giỏ hàng,AE_ORDER_001; AE_ORDER_002,2,0,0,2,2,2,0,100%,Completed
+Order,Kiểm tra số lượng sản phẩm trong giỏ hàng,AE_ORDER_003,0,0,1,1,1,1,0,100%,Completed
+Order,Xóa sản phẩm khỏi giỏ hàng,AE_ORDER_004,1,0,0,1,1,1,0,100%,Completed
+Order,Checkout khi chưa đăng nhập,AE_ORDER_005,0,1,0,1,1,1,0,100%,Completed
+Order,Checkout sau khi đăng nhập,AE_ORDER_006,1,0,0,1,1,1,0,100%,Completed
+Order,Kiểm tra thông tin Checkout,AE_ORDER_007,1,0,0,1,1,1,0,100%,Completed
+Order,Đặt hàng và thanh toán thành công,AE_ORDER_008; AE_ORDER_009,2,0,0,2,2,2,0,100%,Completed
+Order,Tải Invoice sau khi đặt hàng thành công,AE_ORDER_010,1,0,0,1,1,1,0,100%,Completed
+TOTAL,Login + Search + Order,SD_LOGIN_001-SD_LOGIN_010; AE_SEARCH_001-AE_SEARCH_015; AE_ORDER_001-AE_ORDER_010,16,8,11,35,35,35,0,100%,Completed

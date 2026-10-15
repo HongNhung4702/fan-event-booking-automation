@@ -24,3 +24,13 @@ AE_SEARCH_012,Search,Tìm kiếm bằng chuỗi số,Edge,Search.feature,Scenari
 AE_SEARCH_013,Search,Tìm kiếm bằng chuỗi dài 256 ký tự,Edge,Search.feature,Scenario Outline,search-data.csv,Hệ thống vẫn hoạt động ổn định và không phát sinh lỗi,PASS
 AE_SEARCH_014,Search,Thực hiện hai lần tìm kiếm liên tiếp,Positive,Search.feature,Scenario,search-data.csv,Cả hai lần tìm kiếm đều trả về kết quả phù hợp,PASS
 AE_SEARCH_015,Search,Mở trang chi tiết sản phẩm từ kết quả tìm kiếm,Positive,Search.feature,Scenario,search-data.csv,Trang chi tiết của sản phẩm được hiển thị đúng,PASS
+AE_ORDER_001,Order,Thêm một sản phẩm vào giỏ hàng,Positive,Order.feature,Scenario,order-data.csv,Sản phẩm Blue Top được hiển thị trong giỏ hàng,PASS
+AE_ORDER_002,Order,Thêm nhiều sản phẩm vào giỏ hàng,Positive,Order.feature,Scenario,order-data.csv,Các sản phẩm Blue Top và Soft Stretch Jeans được hiển thị trong giỏ hàng,PASS
+AE_ORDER_003,Order,Thêm sản phẩm với số lượng bằng 4,Edge,Order.feature,Scenario,order-data.csv,Sản phẩm Blue Top được hiển thị trong giỏ hàng với số lượng bằng 4,PASS
+AE_ORDER_004,Order,Xóa sản phẩm khỏi giỏ hàng,Positive,Order.feature,Scenario,order-data.csv,Sản phẩm được xóa khỏi giỏ hàng thành công,PASS
+AE_ORDER_005,Order,Checkout khi chưa đăng nhập,Negative,Order.feature,Scenario,order-data.csv,Hệ thống yêu cầu người dùng đăng ký hoặc đăng nhập trước khi Checkout,PASS
+AE_ORDER_006,Order,Checkout sau khi đăng nhập,Positive,Order.feature,Scenario,order-data.csv,Trang Checkout được hiển thị sau khi người dùng đăng nhập và chọn Proceed To Checkout,PASS
+AE_ORDER_007,Order,Kiểm tra thông tin địa chỉ và đơn hàng tại Checkout,Positive,Order.feature,Scenario,order-data.csv,Hiển thị Delivery Address Billing Address và Review Your Order,PASS
+AE_ORDER_008,Order,Đặt hàng thành công với một sản phẩm,Positive,Order.feature,Scenario Outline,order-data.csv,Đơn hàng được thanh toán và xác nhận thành công,PASS
+AE_ORDER_009,Order,Đặt hàng thành công với nhiều sản phẩm,Positive,Order.feature,Scenario Outline,order-data.csv,Đơn hàng nhiều sản phẩm được thanh toán và xác nhận thành công,PASS
+AE_ORDER_010,Order,Tải Invoice sau khi đặt hàng thành công,Positive,Order.feature,Scenario,order-data.csv,File Invoice được tải xuống thành công sau khi hoàn tất đơn hàng,PASS
